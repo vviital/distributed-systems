@@ -17,6 +17,7 @@ webpackConfig = {
       'es6-promise',
       'isomorphic-fetch',
       'jquery',
+      'bootstrap',
     ],
   },
   output: {
@@ -57,7 +58,7 @@ webpackConfig = {
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
     new VendorChunkPlugin('vendor'),
     new CopyWebpackPlugin([
-      { from: 'src/index.html', to: 'index.html' },
+      { from: 'client/index.html', to: 'index.html' },
     ]),
     new webpack.DefinePlugin({
       'process.env': {
