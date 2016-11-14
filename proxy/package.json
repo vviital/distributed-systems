@@ -1,0 +1,25 @@
+{
+  "name": "vote-proxy",
+  "version": "1.0.0",
+  "description": "vote-proxy to distributed system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vviital/distributed-systems.git"
+  },
+  "keywords": [
+    "vote",
+    "proxy",
+    "distributed",
+    "system"
+  ],
+  "author": "vviital",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vviital/distributed-systems/issues"
+  },
+  "homepage": "https://github.com/vviital/distributed-systems#readme"
+}
