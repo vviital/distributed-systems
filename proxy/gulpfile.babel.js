@@ -6,6 +6,7 @@ import eslint from 'gulp-eslint';
 gulp.task('lint', () => (
   gulp.src([
     'client/**/*.js',
+    '!server/public/**',
     'server/**/*.js',
     'gulpfile.babel.js',
     'webpack.config.js',

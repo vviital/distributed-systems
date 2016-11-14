@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "watch-build": "webpack --watch",
-    "precommit": "gulp precommit"
+    "precommit": "gulp precommit",
+    "start": "babel-node ./server/index"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "webpack-vendor-chunk-plugin": "^1.0.0"
   },
   "dependencies": {
+    "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "cross-env": "^3.1.3",
     "es6-promise": "^4.0.5",
