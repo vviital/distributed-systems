@@ -4,7 +4,10 @@
   "description": "vote-proxy to distributed system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "watch-build": "webpack --watch",
+    "precommit": "gulp precommit"
   },
   "repository": {
     "type": "git",
@@ -47,8 +50,10 @@
     "webpack-vendor-chunk-plugin": "^1.0.0"
   },
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "cross-env": "^3.1.3",
     "es6-promise": "^4.0.5",
+    "express": "^4.14.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1"
   }
