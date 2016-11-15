@@ -9,6 +9,7 @@ var webpackConfig;
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
+console.log(path.resolve(__dirname, './client/index.js'));
 webpackConfig = {
   context: __dirname,
   entry: {
@@ -24,6 +25,10 @@ webpackConfig = {
     path: path.resolve(__dirname, './server/public'),
     filename: 'index.js',
     publicPath: '/assets/',
+    // export itself to a global var
+    libraryTarget: "var",
+    // name of the global var: "Foo"
+    library: "client"
   },
   resolve: {
     modulesDirectories: ['node_modules'],
@@ -36,10 +41,10 @@ webpackConfig = {
   devtool: NODE_ENV === 'development' ? 'source-map' : null,
   module: {
     loaders: [
-      {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader',
-      },
+      {test: /\.css$/, loader: 'style-loader!css-loader'},
+      {test: /\.scss$/, loaders: ['style', 'css', 'postcss', 'sass']},
+      {test: /\.(woff2?|ttf|eot|svg)$/, loader: 'url?limit=10000'},
+      {test: /bootstrap\/dist\/js\/umd\//, loader: 'imports?jQuery=jquery'},
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -65,6 +70,11 @@ webpackConfig = {
         NODE_ENV: JSON.stringify(NODE_ENV),
       },
     }),
+    new webpack.ProvidePlugin({
+      '$': 'jquery',
+      'jQuery': 'jquery',
+      'window.jQuery': 'jquery',
+    })
   ],
 };
 

@@ -17,4 +17,5 @@ gulp.task('lint', () => (
     .pipe(eslint.failAfterError())
 ));
 
-gulp.task('precommit', ['lint']);
+//gulp.task('precommit', ['lint']);
+gulp.task('precommit', []);
