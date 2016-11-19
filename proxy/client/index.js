@@ -6,7 +6,6 @@ import uuid from 'node-uuid';
 export const store = {
   tab1: {},
   tab2: {},
-  loader: false,
 };
 
 const getVotes = () => {
@@ -21,9 +20,6 @@ const getVotes = () => {
 
 const poll = (options) => {
   const { id } = options;
-  console.log(options);
-
-  store.loader = true;
 
   fetch(`/api/vote/${id}`, {
     method: 'POST',
@@ -33,8 +29,6 @@ const poll = (options) => {
     },
     body: JSON.stringify(options),
   })
-    .then(() => store.loader = false)
-    .catch(() => store.loader = false);
 };
 
 getVotes();
@@ -42,7 +36,7 @@ export const intervalId = setInterval(() => getVotes(), 15000);
 
 let events = [];
 
-const unsubscribe = () => {
+const unsubscribe = (events) => {
   events.forEach((event) => {
     $(event.element).off(event.type);
   });
@@ -50,8 +44,10 @@ const unsubscribe = () => {
 };
 
 const setData = () => {
+  unsubscribe(events);
   const container = $('#vote-container');
   container.empty();
+
 
   if (store.tab1.map) {
     const elements = store.tab1.map((vote) => {
@@ -89,14 +85,89 @@ const setData = () => {
   }
 };
 
+let candidatesIds = [];
+let candidatesEvents = [];
+
 const clearVoteFormContent = () => {
   $('#vote-form-content').empty();
+  $('#vote-title').val('');
+  unsubscribe(candidatesEvents);
+  candidatesIds = [];
+
 };
 
-const addCandidate = () => {
+const getCandidateName = (id) => {
+  const name = $(`#candidate-name-${id}`).val();
+
+  return name;
+};
+
+const getTitle = () => {
+  const title = $(`#vote-title`).val();
+
+  return title;
+};
+
+const getCandidateDescription = (id) => {
+  const description = $(`#candidate-description-${id}`).val();
+
+  return description;
+};
+
+const getUrl = (id) => {
+  const url = $(`#image-preview-${id}`).attr('src');
+
+  return url;
+};
+
+const getCandidatesInfo = () => {
+  const info = candidatesIds.map(id => ({
+    name: getCandidateName(id),
+    text: getCandidateDescription(id),
+    url: getUrl(id),
+  }));
+
+  return {
+    id: uuid.v4(),
+    title: getTitle(),
+    candidates: info,
+  };
+};
+
+export const submitCandidates = () => {
+  const dto = getCandidatesInfo();
+
+  fetch('/api/vote', {
+    method: 'PUT',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(dto),
+  })
+    .then(() => {
+      getVotes();
+      clearVoteFormContent();
+    });
+};
+
+export const readUrl = (input, id) => {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+
+    reader.onload = (e) => $(`#image-preview-${id}`).attr('src', e.target.result);
+
+    reader.readAsDataURL(input.files[0]);
+  }
+};
+
+export const addCandidate = () => {
+  console.log('this');
   const container = $('#vote-form-content');
 
   const id = uuid.v4();
+
+  candidatesIds.push(id);
 
   const div = `<div>
      <div class="form-group">
@@ -111,14 +182,19 @@ const addCandidate = () => {
       <div>
       <div class="form-group">
         <label for="candidate-image-${id}">File input</label>
-        <input type="file" class="form-control-file" id="candidate-image-${id}" aria-describedby="fileHelp">
+        <input type="file" class="form-control-file" id="candidate-image-${id}">
         <small id="fileHelp" class="form-text text-muted">Candidate image</small>
       </div>
-      <div id="image-preview-${id}">
-          
+      <div>
+          <img id="image-preview-${id}" style="max-width: 300px; max-height: 300px;" />
       </div>
       </div>
     </div>`;
 
   container.append(div);
+
+  candidatesEvents.push({ element: `#candidate-image-${id}`, type: 'change' });
+  $(`#candidate-image-${id}`).change(function() {
+    readUrl(this, id);
+  });
 };

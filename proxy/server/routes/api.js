@@ -88,13 +88,12 @@ router.get('/vote', (req, res, next) => {
 
 router.post('/vote/:id', (req, res, next) => {
   res.status(200);
-  console.log(req.body);
   res.send(req.body);
 });
 
 router.put('/vote', (req, res, next) => {
   res.status(201);
-  console.log(req.body);
+  mockedVotes.push(req.body);
   res.send(req.body);
 });
 
