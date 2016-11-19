@@ -18,6 +18,12 @@ const voteSchema = new Schema({
   counted: {
     type: Boolean,
     default: false,
+  },
+  createdDate: {
+    type: Number,
+  },
+  countedDate: {
+    type: Number,
   }
 });
 

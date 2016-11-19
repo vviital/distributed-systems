@@ -18,8 +18,7 @@ webpackConfig = {
     app: './client/index.js',
     vendor: [
       'jquery',
-      'bootstrap',
-      'node-uuid',
+      'moment',
     ],
   },
   output: {
