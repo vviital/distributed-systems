@@ -34,7 +34,19 @@
                         <div class="panel-heading">Creating new vote</div>
                         <div class="panel-body">
                             <form>
+                                <div class="form-group">
+                                    <label for="vote-title">Vote title</label>
+                                    <input type="text" class="form-control" id="vote-title" placeholder="Vote title">
+                                    <small id="vote-title-help" class="form-text text-muted">Enter title for new vote</small>
+                                </div>
+                                <label>Candidates</label>
+                                <div id="vote-form-content">
 
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-primary" id="add-candidate-button">Add new candidate</button>
+                                    <button type="submit" class="btn btn-primary">Submit new vote</button>
+                                </div>
                             </form>
                         </div>
                     </div>

@@ -89,13 +89,13 @@ router.get('/vote', (req, res, next) => {
 router.post('/vote/:id', (req, res, next) => {
   res.status(200);
   console.log(req.body);
-  res.send({ ok: true });
+  res.send(req.body);
 });
 
 router.put('/vote', (req, res, next) => {
   res.status(201);
   console.log(req.body);
-  res.send({ ok: true });
+  res.send(req.body);
 });
 
 export default router;

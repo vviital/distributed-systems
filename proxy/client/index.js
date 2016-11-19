@@ -27,6 +27,10 @@ const poll = (options) => {
 
   fetch(`/api/vote/${id}`, {
     method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(options),
   })
     .then(() => store.loader = false)
@@ -83,4 +87,38 @@ const setData = () => {
     elements.forEach(element => container.append(element));
     events.forEach(event => $(event.element).on(event.type, () => poll(event.options)));
   }
+};
+
+const clearVoteFormContent = () => {
+  $('#vote-form-content').empty();
+};
+
+const addCandidate = () => {
+  const container = $('#vote-form-content');
+
+  const id = uuid.v4();
+
+  const div = `<div>
+     <div class="form-group">
+       <label for="candidate-name-${id}">Name</label>
+       <input type="text" class="form-control" id="candidate-name-${id}" placeholder="Name">
+       <small id="vote-title-help" class="form-text text-muted">Enter candidate name</small>
+     </div>
+      <div class="form-group">
+        <label for="candidate-description-${id}">Candidate description</label>
+        <textarea class="form-control" id="candidate-description-${id}" rows="3"></textarea>
+      </div>
+      <div>
+      <div class="form-group">
+        <label for="candidate-image-${id}">File input</label>
+        <input type="file" class="form-control-file" id="candidate-image-${id}" aria-describedby="fileHelp">
+        <small id="fileHelp" class="form-text text-muted">Candidate image</small>
+      </div>
+      <div id="image-preview-${id}">
+          
+      </div>
+      </div>
+    </div>`;
+
+  container.append(div);
 };
