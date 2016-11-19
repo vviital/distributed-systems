@@ -1,100 +1,49 @@
 import express from 'express';
+import request from 'request';
+import { servers } from '../config';
 
 const router = express.Router();
 
-const mockedVotes = [
-  {
-    id: 1,
-    title: 'Vote 1',
-    candidates: [
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Vote 2',
-    candidates: [
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-      {
-        name: 'test-1',
-        url: 'http://cp91279.biography.com/BRAND_BIO_Bio-Shorts_Bruce-Lee-Mini-Biography_0_172230_SF_HD_768x432-16x9.jpg',
-        text: `I'm counting on a memory to get me out of here
-               I'm waiting for the fog around this spooky little town to clear
-               All this time I've spent being someone else's friend
-               Just one more time for old time's sake I'd like to go back home again`,
-      },
-    ],
-  },
-];
-
 router.get('/vote', (req, res, next) => {
   res.status(200);
-  res.send(mockedVotes);
+  request({
+    method: 'GET',
+    url: `${servers[0]}/api/vote`,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+    .pipe(res);
 });
 
 router.post('/vote/:id', (req, res, next) => {
+  const { id } = req.params;
   res.status(200);
-  res.send(req.body);
+  request({
+    method: 'POST',
+    url: `${servers[0]}/api/vote/${id}`,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  })
+    .pipe(res);
 });
 
 router.put('/vote', (req, res, next) => {
   res.status(201);
-  mockedVotes.push(req.body);
-  res.send(req.body);
+  request({
+    method: 'PUT',
+    url: `${servers[0]}/api/vote`,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  })
+    .pipe(res);
 });
 
 export default router;

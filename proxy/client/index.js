@@ -64,7 +64,7 @@ const setData = () => {
 
         return `<div class="col-xs-12" style="padding: 10px">
             <div class="col-xs-6">
-                <img style="width: 100%; max-height: 200px" src="${candidate.url}">
+                <img style="width: 100%; max-height: 200px; object-fit: contain;" src="${candidate.url}">
            </div>
            <div class="col-xs-6">
                 <div style="width: 100%;">${candidate.name}</div>
