@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import moment from 'moment';
+import deepEqual from 'deep-equal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export const store = {
@@ -11,8 +12,12 @@ const getCurrentStatus = () => {
     method: 'GET',
   })
     .then(res => res.json())
-    .then(data => store.data = data)
-    .then(() => setData())
+    .then(data => {
+      if (!deepEqual(data, store.data)) {
+        store.data = data;
+        setData();
+      }
+    })
     .catch(err => console.log(err));
 };
 
