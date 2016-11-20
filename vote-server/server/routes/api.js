@@ -1,13 +1,21 @@
 import express from 'express';
-import { Vote, Questionnaires } from '../model/model';
+import request from 'request';
+import { Vote } from '../model/model';
+import { databaseServer } from '../config';
 
 const router = express.Router();
 
 router.get('/vote', (req, res, next) => {
-  Questionnaires.find({}, (err, questionnaire) => {
-    res.status(200);
-    res.send(questionnaire);
-  });
+  res.status(200);
+  request({
+    method: 'GET',
+    url: `${databaseServer}/api/vote`,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+  })
+    .pipe(res);
 });
 
 router.get('/vote/status', (req, res, next) => {
@@ -15,6 +23,24 @@ router.get('/vote/status', (req, res, next) => {
     res.status(200);
     res.send(vote);
   });
+});
+
+router.patch('/vote', (req, res, next) => {
+  Vote.find({ counted: false })
+    .then((vote) => {
+      const query = vote.map(({ voteId, voteIndex }) => ({ voteId, voteIndex }));
+      req.query = query;
+
+      return Vote.update(
+        { counted: false },
+        { counted: true, countedDate: new Date().getTime() },
+        { multi: true }
+      );
+    })
+    .then(() => {
+      res.status(200);
+      res.send(req.query);
+    });
 });
 
 router.post('/vote/:id', (req, res, next) => {
@@ -37,18 +63,17 @@ router.post('/vote/:id', (req, res, next) => {
 });
 
 router.put('/vote', (req, res, next) => {
-  const { body } = req;
-
   res.status(201);
-
-  const questionnaires = new Questionnaires({
-    id: body.id,
-    title: body.title,
-    candidates: body.candidates,
-  });
-
-  questionnaires.save()
-    .then(() => res.send(body));
+  request({
+    method: 'PUT',
+    url: `${databaseServer}/api/vote`,
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  })
+    .pipe(res);
 });
 
 export default router;
