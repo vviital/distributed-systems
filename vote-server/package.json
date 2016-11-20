@@ -49,7 +49,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "up-1": "env PORT=3001 babel-node ./server/index.js",
-    "up-2": "env PORT=3001 babel-node ./server/index.js",
+    "up-2": "env PORT=3002 babel-node ./server/index.js",
     "build": "webpack"
   },
   "author": "",

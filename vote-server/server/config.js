@@ -1,1 +1,1 @@
-export const databaseServer = 'http://localhost:3002';
+export const databaseServer = 'http://localhost:3003';

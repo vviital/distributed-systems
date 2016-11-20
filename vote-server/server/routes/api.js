@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/vote', (req, res, next) => {
   res.status(200);
+  console.log('get vote-server');
   request({
     method: 'GET',
     url: `${databaseServer}/api/vote`,
