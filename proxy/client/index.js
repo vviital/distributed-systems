@@ -32,7 +32,6 @@ const poll = (options) => {
 };
 
 getVotes();
-export const intervalId = setInterval(() => getVotes(), 15000);
 
 let events = [];
 

@@ -44,7 +44,7 @@ router.patch('/vote', (req, res, next) => {
 });
 
 router.post('/vote/:id', (req, res, next) => {
-  const { ip, body } = req;
+  const { body } = req;
 
   res.status(200);
 
@@ -54,7 +54,7 @@ router.post('/vote/:id', (req, res, next) => {
     counted: false,
     createdDate: new Date().getTime(),
     countedDate: undefined,
-    ip,
+    ip: body.ip,
   });
 
   vote.save()

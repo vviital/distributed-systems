@@ -27,7 +27,7 @@ router.post('/vote/:id', (req, res, next) => {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(req.body),
+    body: JSON.stringify({ ...req.body, ip: req.ip }),
   })
     .pipe(res);
 });
